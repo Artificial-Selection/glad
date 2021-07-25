@@ -17,7 +17,6 @@ jobs:
         config:
           - os: windows-latest
             name: Windows MSVC
-            build_type: [Debug, Release]
 
     steps:
       - name: Get source code
@@ -40,10 +39,7 @@ jobs:
           conan config set general.revisions_enabled=1
 
       - name: Setup conan user
-        env:
-          GITLAB_USERNAME: ${{ secrets.GITLAB_USERNAME }}
-          GITLAB_ACCESS_TOKEN: ${{ secrets.GITLAB_ACCESS_TOKEN }}
-        run: conan user "$GITLAB_USERNAME" -r gitlab -p "$GITLAB_ACCESS_TOKEN"
+        run: conan user "${{ secrets.GITLAB_USERNAME }}" -r gitlab -p "${{ secrets.GITLAB_ACCESS_TOKEN }}"
 
       - name: Create glad conan package
         run: |
@@ -52,7 +48,7 @@ jobs:
 
       - name: Dry package upload
         if: ${{ github.event_name == 'pull_request' }}
-        run: conan upload glad/0.1.34@snv/stable --all --check --remote gitlab
+        run: conan upload glad/0.1.34@snv/stable --all --check --skip-upload --remote gitlab
 
       - name: Upload package to GitLab
         if: ${{ github.event_name == 'push' && github.event.ref == 'refs/heads/master' }}
