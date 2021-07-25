@@ -40,7 +40,6 @@ jobs:
           conan config set general.revisions_enabled=1
 
       - name: Setup conan user
-        env:
         run: conan user "${{ secrets.GITLAB_USERNAME }}" -r gitlab -p "${{ secrets.GITLAB_ACCESS_TOKEN }}"
 
       - name: Create glad conan package
