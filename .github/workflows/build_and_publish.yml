@@ -10,8 +10,8 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
 
-    env:
-      CONAN_USER_HOME: ${{GITHUB_WORKSPACE
+    #env:
+    #  CONAN_USER_HOME: ${{GITHUB_WORKSPACE
 
     strategy:
       fail-fast: false
