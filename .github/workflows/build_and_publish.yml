@@ -27,7 +27,8 @@ jobs:
           architecture: 'x64'
 
       - name: Remove Visual Studio LLVM workload
-        run: vs_setup modify --remove Microsoft.VisualStudio.Component.VC.Llvm.Clang
+        run: |
+          & "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installershell.exe" modify --remove Microsoft.VisualStudio.Component.VC.Llvm.Clang --installpath "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise"
 
       - name: Cache LLVM and Clang
         if: ${{ matrix.compiler }} == 'clang'
