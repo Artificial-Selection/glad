@@ -28,9 +28,10 @@ jobs:
 
       - name: Remove Visual Studio LLVM workload
         if: ${{ matrix.compiler }} == 'clang'
+        shell: pwsh
         run: |
-          & "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installershell.exe" modify -q --remove Microsoft.VisualStudio.Component.VC.Llvm.Clang --installpath "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise"
-          & "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installershell.exe" modify -q --remove Microsoft.VisualStudio.Component.VC.Llvm.ClangToolset --installpath "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise"
+          $process = Start-Process -FilePath "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installershell.exe" -ArgumentList "--q", "--remove", "modify", "Microsoft.VisualStudio.Component.VC.Llvm.Clang Microsoft.VisualStudio.Component.VC.Llvm.ClangToolset", "--installpath", "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise" -Wait -PassThru
+          Write-Output $process.ExitCode
 
       - name: Cache LLVM and Clang
         if: ${{ matrix.compiler }} == 'clang'
@@ -55,7 +56,6 @@ jobs:
           pip install conan
 
       - name: Setup conan.conf
-        shell: pwsh
         run: |
           conan remote add gitlab https://gitlab.com/api/v4/projects/28364651/packages/conan
           conan config set general.revisions_enabled=1
