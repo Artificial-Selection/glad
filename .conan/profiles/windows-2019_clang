@@ -1,0 +1,11 @@
+[settings]
+os=Windows
+arch=x86_64
+compiler=clang
+compiler.version=12
+compiler.cppstd=20
+
+[env]
+CC=clang-cl
+CXX=clang-cl
+CONAN_CMAKE_GENERATOR=Ninja
