@@ -8,15 +8,13 @@ on:
 
 jobs:
   build:
-    name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
 
     strategy:
       fail-fast: false
       matrix:
-        config:
-          - os: windows-latest
-            name: Windows MSVC
+        os: [windows-2019]
+        compiler: [msvc, clang]
 
     steps:
       - name: Get source code
@@ -43,8 +41,8 @@ jobs:
 
       - name: Create glad conan package
         run: |
-          conan create . glad/0.1.34@snv/stable -s build_type=Debug
-          conan create . glad/0.1.34@snv/stable -s build_type=Release
+          conan create . glad/0.1.34@snv/stable -pr="${{ matrix.os }}_${{ matrix.compiler }}" -s build_type=Debug
+          conan create . glad/0.1.34@snv/stable -pr="${{ matrix.os }}_${{ matrix.compiler }}" -s build_type=Release
 
       - name: Dry package upload
         if: ${{ github.event_name == 'pull_request' }}
