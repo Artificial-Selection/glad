@@ -26,6 +26,9 @@ jobs:
           python-version: '3.9.6'
           architecture: 'x64'
 
+      - name: Remove Visual Studio LLVM workload
+        run: vs_setup modify --remove Microsoft.VisualStudio.Component.VC.Llvm.Clang
+
       - name: Cache LLVM and Clang
         if: ${{ matrix.compiler }} == 'clang'
         id: cache-llvm
