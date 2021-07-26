@@ -11,7 +11,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     env:
-      CONAN_USER_HOME: $GITHUB_WORKSPACE
+      CONAN_USER_HOME: ${{GITHUB_WORKSPACE
 
     strategy:
       fail-fast: false
@@ -43,8 +43,8 @@ jobs:
 
       - name: Create glad conan package
         run: |
-          conan create . glad/0.1.34@snv/stable -pr="${{ matrix.os }}_${{ matrix.compiler }}" -s build_type=Debug
-          conan create . glad/0.1.34@snv/stable -pr="${{ matrix.os }}_${{ matrix.compiler }}" -s build_type=Release
+          conan create . glad/0.1.34@snv/stable -pr=".conan/profiles/${{ matrix.os }}_${{ matrix.compiler }}" -s build_type=Debug
+          conan create . glad/0.1.34@snv/stable -pr=".conan/profiles/${{ matrix.os }}_${{ matrix.compiler }}" -s build_type=Release
 
       - name: Dry package upload
         if: ${{ github.event_name == 'pull_request' }}
