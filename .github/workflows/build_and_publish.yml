@@ -10,9 +10,6 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
 
-    #env:
-    #  CONAN_USER_HOME: ${{GITHUB_WORKSPACE
-
     strategy:
       fail-fast: false
       matrix:
@@ -28,6 +25,11 @@ jobs:
         with:
           python-version: '3.9.6'
           architecture: 'x64'
+
+      - name: Setup clang
+        shell: bash
+        if: ${{ matrix.compiler }} == 'clang'
+        run: echo "PATH=$PATH:C:\msys64\mingw64\bin" >> $GITHUB_ENV
 
       - name: Install conan
         run: |
