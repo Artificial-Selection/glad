@@ -10,6 +10,9 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
 
+    env:
+      CONAN_USER_HOME=${{ env.GITHUB_WORKSPACE }}
+
     strategy:
       fail-fast: false
       matrix:
@@ -34,7 +37,6 @@ jobs:
       - name: Setup conan.conf
         shell: pwsh
         run: |
-          $env:CONAN_USER_HOME=$(Get-Location)
           conan remote add gitlab https://gitlab.com/api/v4/projects/28364651/packages/conan
           conan config set general.revisions_enabled=1
           conan user "${{ secrets.GITLAB_USERNAME }}" -r gitlab -p "${{ secrets.GITLAB_ACCESS_TOKEN }}"
